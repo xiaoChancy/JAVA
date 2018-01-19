@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="target-densitydpi=device-dpi" />
+    <meta name="viewport" content="target-densitydpi=high-dpi" />
+    <meta name="viewport" content="target-densitydpi=medium-dpi" />
+    <meta name="viewport" content="target-densitydpi=low-dpi" />
+    <meta name="viewport" content="target-densitydpi=212" />
+    <title>温馨提示</title>
+    <link href="{{url('public/css/style.css')}}" rel="stylesheet">
+    <script type="text/javascript">
+        window.onload = function () {
+            document.getElementById('alert_foot').firstElementChild.focus();
+        };
+        function goGame(){
+            webGoback.quitWebView();
+        }
+    </script>
+</head>
+<body class="alert_bg">
+    <div class="alert">
+        <div class="alert_head">
+            <label>温馨提示</label>
+        </div>
+        <div class="alert_body">
+            {!! $data !!}
+        </div>
+        <div class="alert_foot" id="alert_foot">
+            @if(empty($getUrl))
+                <a href="{{url('index/logout')}}"><img src="{{url('public/images/ok.png')}}"></a>
+            @else
+                <a href="{{$getUrl}}"><img src="{{url('public/images/ok.png')}}"></a>
+            @endif
+        </div>
+    </div>
+</body>

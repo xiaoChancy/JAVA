@@ -1,0 +1,17 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/header::header"></head>
+<body>
+    <div class="rule_introduce" >
+        <a th:href="@{/index/index.html}" class="back_coles" id="act_coles">
+            <img th:src="@{/images/back.png}"/>
+        </a>
+    </div>
+    <script type="text/javascript">
+        window.onload = function(){
+            document.getElementById("act_coles").focus();
+        }
+    </script>
+</body>
+</html>

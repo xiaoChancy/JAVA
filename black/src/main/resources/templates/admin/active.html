@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/adminHeader::header"></head>
+<body>
+<nav class="navbar navbar-default navbar-static-top"  th:include="common/adminHeader::navbar"></nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        active
+                    </div>
+                    <div class="panel-body">
+                        <label for="date">date:</label>
+                        <input id="date" name="date" type="date" th:value="${date}"/>
+                        <button class="btn" onclick="get_data();">button</button>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-hover table-striped" id="tb_data">
+                                <thead>
+                                <tr>
+                                    <td>Active</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="${active}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    function get_data() {
+        var date = document.getElementById('date').value;
+        document.location.href = "/admin/active?date=" + date;
+    }
+</script>
+</body>
+</html>

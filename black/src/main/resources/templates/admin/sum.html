@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/adminHeader::header"></head>
+<body>
+<nav class="navbar navbar-default navbar-static-top"  th:include="common/adminHeader::navbar"></nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        登录总数统计
+                    </div>
+                    <div class="panel-body">
+                        <div class="panel-body">
+                            <table class="table table-bordered table-hover table-striped" id="tb_data">
+                                <thead>
+                                <tr>
+                                    <td>参与活动总人数</td>
+                                    <td>包月参与活动总人数</td>
+                                    <td>非包月参与活动总人数</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td th:text="${adminService}"></td>
+                                        <td th:text="${activityPaySum}"></td>
+                                        <td th:text="${activityNotPaySum}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

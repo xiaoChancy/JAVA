@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/header::header"></head>
+<body>
+<div class="container">
+    <marquee direction="left" scrollamount="6" class="marquee" style="color: #FFFFFF;position: fixed;font-size: 18px">
+        亲爱的用户：如遇游戏更新时卡在“安装中”界面，请卸载后重新安装。
+    </marquee>
+    <div class="user_info">
+        <label>我的用户名： </label>
+        <label th:text="${userRanking.userId}"></label>
+    </div>
+    <a class="index_coles" th:href="${returnURL}"><img th:src="@{/images/close.png}"/></a>
+    <a th:if="
+        ${userRanking.month == 1
+             and theAwardTime
+             and userRanking.ranking gt 0
+             and userRanking.ranking le 500}"
+        th:href="@{/index/ranking/{ranking}/integer/{integer}(ranking=${userRanking.ranking},integer=${userRanking.integer})}" class="btn_prize">
+        <img th:src="@{/images/btn_prize.png}" alt=""/>
+    </a>
+    <div class="ranking">
+        <div class="ranking_header">
+            <img class="phase1" alt="" th:src="@{/images/label.png}" />
+                <img class="phase" th:if="${stage == 1}" alt="" th:src="@{/images/stage1.png}" />     <!--  第一期  -->
+                <img class="phase" th:if="${stage == 2}" alt="" th:src="@{/images/stage2.png}" />     <!--  第二期  -->
+                <img class="phase" th:if="${stage == 3}" alt="" th:src="@{/images/stage3.png}" />     <!--  第三期  -->
+        </div>
+        <div style="padding-top: 15px;padding-left: 8px">
+                <img th:if="${theAwardTime}" th:src="@{/images/end_off.png}" alt="" />                        <!--  本期活动结束  -->
+                <img th:unless="${theAwardTime}" th:src="@{/images/have_in_hand.png}" alt="" />                   <!--  活动进行中  -->
+        </div>
+        <div style="color: #e0ceb7;padding-left: 160px;padding-top: 7px;font-size: 18px;font-weight: 500">
+            <label th:text="${userRanking.integer}"></label>
+        </div>
+        <div style="padding-top: 4px;padding-left: 55px">
+            <div th:if="${userRanking.month == 1}">
+                <div style="padding-left: 12px">
+                        <img th:if="${theAwardTime}" th:src="@{/images/final_ranking.png}" alt=""/>             <!--  我最终排名  -->
+                        <img th:unless="${theAwardTime}" th:src="@{/images/current_ranking.png}" alt=""/>           <!--  我当前排名  -->
+                    <label th:text="${userRanking.ranking}"  style="color: #e0ceb7;position: relative;left: -62px;top: -2px;font-size: 18px;font-weight: 500"></label>
+                </div>
+                <div style="position: relative;left: -53px;top: 3px;width: 305px;">
+                    <div th:if="${theAwardTime}">
+                            <img th:if="${userRanking.ranking gt 0 and userRanking.ranking le 500}" th:src="@{/images/label_2.png}" alt="" style="position: relative;left: -14px;"/>    <!--  最终奖品  -->
+                            <img th:if="${userRanking.ranking gt 0 and userRanking.ranking le 500}" th:src="@{/images/prize_{re}.png(re=${reward})}" alt="" />     <!--  获得的奖品名称  -->
+                            <img th:unless="${userRanking.ranking gt 0 and userRanking.ranking le 500}" th:src="@{/images/prompt_2.png}" alt=""/>                <!--  没得奖  -->
+                    </div>
+                    <div th:unless="${theAwardTime}">
+                            <img th:if="${userRanking.ranking gt 0 and userRanking.ranking le 500}" style="padding-left: 29px;" th:src="@{/images/ladel_1.png}" alt="" />   <!--  保持到月底可获得奖品  -->
+                            <img th:if="${userRanking.ranking gt 0 and userRanking.ranking le 500}" th:src="@{/images/prize_{re}.png(re=${reward})}" alt="" />     <!--  获得的奖品名称  -->
+                            <img th:unless="${userRanking.ranking gt 0 and userRanking.ranking le 500}" th:src="@{/images/prompt_1.png}" alt=""/>               <!--  继续加油  -->
+                    </div>
+                </div>
+            </div>
+            <img th:unless="${userRanking.month == 1}" th:src="@{/images/non_monthly.png}" alt=""/>                        <!--  非包月玩家提示文字  -->
+        </div>
+    </div>
+    <div th:if="${userRanking.month == 1}" class="bottom_" th:attrappend="class=${reward}" id="bottom">
+        <img th:src="@{/images/bottom.png}" alt=""/>
+    </div>
+    <div class="ranking_body">
+        <div id="demoTop">
+            <div id="demo3">
+                <table th:if="${rankingList}">
+                    <tr class="ranking_body_tr" th:each="ranking : ${rankingList}">
+                        <th class="ranking_body_th1" th:text="${ranking.ranking}"></th>
+                        <th class="ranking_body_th2" th:text="${ranking.userId}"></th>
+                        <th class="ranking_body_th3" th:text="${ranking.integer}"></th>
+                    </tr>
+                </table>
+            </div>
+            <div id="demo4"></div>
+        </div>
+    </div>
+    <div class="ranking_footer" id="forcus">
+        <a th:href="@{/index/introduce.html}"><img th:src="@{/images/introduce.png}" alt=""/></a>
+        <a th:href="@{/index/rule.html}"><img th:src="@{/images/btn_rule.png}" alt=""/></a>
+    </div>
+</div>
+<script th:inline="javascript">
+
+    var direction = -1;
+    var opacityValue = 100;
+    var pay = [[${userRanking.month}]];
+    var speed = 50;
+
+    window.onload = function () {
+        $("forcus").firstElementChild.focus();
+        if(pay == 1){
+            setInterval(flash,8);
+        }
+        roll();
+    };
+    function flash()
+    {
+        if(++opacityValue >= 100)
+        {
+            direction = -1
+        }
+        if(10 > (--opacityValue))
+        {
+            direction = 1;
+        }
+        opacityValue+=direction;
+        $("bottom").style.filter="alpha(opacity="+opacityValue+")";
+        $("bottom").style.opacity=opacityValue/100;
+        $("bottom").style.paddingTop = opacityValue/10 + "px";
+    }
+
+    function roll(){
+        if($('demo3').offsetHeight > 140){
+            $('demo4').innerHTML = $('demo3').innerHTML;
+        }
+        setInterval(function(){
+            if($('demoTop').scrollTop >= $('demo4').offsetHeight) {
+                $('demoTop').scrollTop -= $('demo3').offsetHeight;
+            }else{
+                $('demoTop').scrollTop++;
+            }
+        },speed);
+    }
+    function $(id) {
+        return document.getElementById(id);
+    }
+</script>
+</body>
+</html>

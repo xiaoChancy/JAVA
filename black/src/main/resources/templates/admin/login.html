@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/adminHeader::header"></head>
+<body ng-app="app" ng-controller="MainController">
+<nav class="navbar navbar-default navbar-static-top"  th:include="common/adminHeader::navbar"></nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Admin Login</div>
+                    <div class="form-horizontal">
+                        <br/>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="name" class="col-md-4 control-label">Name</label>
+                                <div class="col-md-6">
+                                    <input id="name" type="text" class="form-control" ng-model="userName" value=""/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="password" class="col-md-4 control-label">Password</label>
+                                <div class="col-md-6">
+                                    <input id="password" type="password" class="form-control" ng-model="password"/>
+                                        <span class="help-block" ng-show="message"><strong>{{message}}</strong></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-4">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="remember"/> Remember Me
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-8 col-md-offset-4">
+                                    <button ng-click="login()" class="btn btn-primary">Login</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    /*<![CDATA[*/
+    var app = angular.module('app', []);
+    app.controller('MainController', function($rootScope, $scope, $http) {
+        $scope.message = '';
+        $scope.userName = '';
+        $scope.password = '';
+        //登录
+        $scope.login = function() {
+            $scope.message = '';
+            $http(
+                {
+                    url : '/admin/loginPost',
+                    method : 'POST',
+                    headers : {
+                        'Content-Type' : 'application/x-www-form-urlencoded'
+                    },
+                    data : 'userName=' + $scope.userName + '&password=' + $scope.password
+                }).success(function(data) {
+                if (data.code != 0) {
+                    $scope.message = data.msg;
+                    return;
+                }
+                window.location.href = '/admin/index';
+            });
+        }
+    });
+    /*]]>*/
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="common/adminHeader::header"></head>
+<body>
+<nav class="navbar navbar-default navbar-static-top"  th:include="common/adminHeader::navbar"></nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        中奖数据
+                    </div>
+                    <label>用户ID:</label>
+                    <input id="user_id" name="user_id" type="text" value=""/>
+                    <button class="btn" onclick="get_data();">获取数据</button>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-hover table-striped" id="tb_data">
+                            <thead>
+                                <tr>
+                                    <td>用户Id</td>
+                                    <td>时间</td>
+                                    <td>奖品类</td>
+                                    <td>排名</td>
+                                    <td>积分</td>
+                                </tr>
+                            </thead>
+                            <tbody th:if="${activityAll}">
+                            <tr  th:each="activity : ${activityAll}">
+                                <td th:text="${activity.userId}"></td>
+                                <td th:text="${activity.time}"></td>
+                                <td>
+                                    <span th:if="${activity.reward} == 1">合家欢乐</span>
+                                    <span th:if="${activity.reward} == 2">万事如意</span>
+                                    <span th:if="${activity.reward} == 3">好事成双</span>
+                                    <span th:if="${activity.reward} == 4">幸福美满</span>
+                                </td>
+                                <td th:text="${activity.ranking}"></td>
+                                <td th:text="${activity.integral}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center">
+                            <a href="javascript:;" th:if="${page le 0}" class="btn btn-default btn-sm" disabled="disabled">上一页</a>
+                            <a href="javascript:goPrev();;" th:unless="${page le 0}" class="btn btn-default btn-sm ">上一页</a>
+                            <a href="javascript:;" th:if="${page + 1 ge size}" class="btn btn-default btn-sm" disabled="disabled">下一页</a>
+                            <a href="javascript:goNext();" th:unless="${page + 1 ge size}" class="btn btn-default btn-sm">下一页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        var page = [[${page}]];
+        function goPrev() {
+            document.location.href = "/admin/index?page=" + (page - 1);
+        }
+        function goNext() {
+            document.location.href = "/admin/index?page="+ (page + 1);
+        }
+
+        function get_data(){
+            var user_id = document.getElementById('user_id').value;
+            document.location.href = "/admin/index?userId="+ user_id;
+        }
+    </script>
+</body>
+</html>
